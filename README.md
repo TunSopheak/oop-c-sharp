@@ -12,7 +12,8 @@
     2. តាមរយៈការសរសេរកូដ
     3. System ជាអ្នក generates\
     ---
-    ```Class ClassName{
+    ```
+    Class ClassName{
         //Coding
     }
     ```
