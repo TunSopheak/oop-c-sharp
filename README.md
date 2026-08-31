@@ -10,6 +10,11 @@
   ​​  មាន ៣​ របៀបដែលអាចបង្កើត Object ចេញពី Class:
     1. គូស (Toolbox,...,Form)
     2. តាមរយៈការសរសេរកូដ
-    3. System ជាអ្នក generates
+    3. System ជាអ្នក generates\
+    ---
+    ```Class ClassName{
+        //Coding
+    }
+    ```
 
 ## Class members
