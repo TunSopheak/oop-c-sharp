@@ -6,7 +6,7 @@
 ## Class &Objects
   - Class ជាពុម្ពគំរូសម្រាប់ (ដែលអាច) បង្កើត Object។
   - Class ជា Source Code ដែលក្នុងនោះគេអាចកំណត់នូវ data, properties, methods, events, ... តម្រូវទៅតាម object ដែលយើងចង់បាន។
-  - Object ជារបស់ ឬវត្ថុដែលកើតចេញពី Class។
+  - Object ជារបស់ ឬវត្ថុដែលកើតចេញពី Class។\
   ​​  មាន ៣​ របៀបដែលអាចបង្កើត Object ចេញពី Class:
     1. គូស (Toolbox,...,Form)
     2. តាមរយៈការសរសេរកូដ
