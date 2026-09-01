@@ -178,11 +178,10 @@ Constructor ជា Method ពិសេសដែល៖
 2. **Parameterized Constructor**: មាន Parameter ប្រើពេលចង់ទាញតម្លៃពីខាងក្រៅមកផ្ដល់ឱ្យ Object ពេលវាចាប់ផ្ដើម។
 3. **Copy Constructor**: សម្រាប់ Copy ទិន្នន័យពី Object មួយដែលមានស្រាប់ ទៅឱ្យ Object ថ្មី។
 4. **Static Constructor**:
+
 * មានតែមួយគត់ក្នុងមួយ Class និងគ្មាន Access Modifier (`public`, `private` ជាដើម) ព្រមទាំងគ្មាន Parameter។
 * ប្រើដើម្បីផ្ដល់តម្លៃឱ្យ Static Data។
 * ត្រូវបានហៅប្រើដោយស្វ័យប្រវត្តិ មុនពេល Object ដំបូងត្រូវបង្កើត ឬមុនពេល Static Member ណាមួយត្រូវហៅប្រើលើកដំបូង។
-
-
 
 ```csharp
 class ClsTest
@@ -226,7 +225,33 @@ ClsSingle Obj2 = ClsSingle.CreateInstance();
 ## 5. Member Types (ប្រភេទរបស់ Class Member)
 
 1. **Instance Member**: ជា Member ដែលជាប់ជាមួយ Object នីមួយៗផ្ទាល់ (ត្រូវប្រើតាមរយៈ Object: `obj.Method()`)។ Object ខុសគ្នា មានទិន្នន័យខុសគ្នា។
+
+```csharp
+class ClsStudent
+{
+    // Instance Members
+    public string ID { get; set; }
+    public string Name { get; set; }
+}
+
+ClsStudent stu1 = new ClsStudent();
+stu1.Name = "Dara"; // ទិន្នន័យជាប់ជាមួយ stu1
+
+```
+
 2. **Static Member**: ជា Member របស់ Class ទាំងមូល។ វាត្រូវបានប្រើប្រាស់រួមគ្នារវាងគ្រប់ Objects ទាំងអស់ (ហៅប្រើតាមរយៈឈ្មោះ Class: `ClassName.Method()`)។
+
+```csharp
+class MathHelper
+{
+    // Static Member
+    public static double PI = 3.14159;
+}
+
+// ហៅប្រើដោយមិនបាច់ new object
+double p = MathHelper.PI;
+
+```
 
 ---
 
@@ -234,7 +259,18 @@ ClsSingle Obj2 = ClsSingle.CreateInstance();
 
 * មិនអាចប្រើប្រាស់ `new` ដើម្បីបង្កើត Object ពីវាបានទេ និងមិនអាចធ្វើជា Base Class (Inherit) ឱ្យគេបានទេ។
 * Member ទាំងអស់របស់វាសុទ្ធតែត្រូវតែជា Static។
-* ហេតុផលដែលប្រើ៖ ច្រើនប្រើសម្រាប់ប្រមូលផ្ដុំ Utility/Helper methods ដែលទាមទារការហៅប្រើញឹកញាប់ដោយមិនបាច់បង្កើត Object នាំឱ្យខាត Memory។ (ឧទាហរណ៍៖ `Math.Round()`)
+* ហេតុផលដែលប្រើ៖ ច្រើនប្រើសម្រាប់ប្រមូលផ្ដុំ Utility/Helper methods ដែលទាមទារការហៅប្រើញឹកញាប់ដោយមិនបាច់បង្កើត Object នាំឱ្យខាត Memory។
+
+```csharp
+// ឧទាហរណ៍ Static Class
+static class Calculator
+{
+    public static int Add(int a, int b) { return a + b; }
+    // កូដផ្សេងទៀតសុទ្ធតែត្រូវតែ static ទាំងអស់
+}
+// របៀបប្រើ: int sum = Calculator.Add(5, 10);
+
+```
 
 ---
 
@@ -243,6 +279,26 @@ ClsSingle Obj2 = ClsSingle.CreateInstance();
 ### a) Encapsulation (ការវេចខ្ចប់)
 
 ជាវិធីសាស្ត្រក្នុងការវេចខ្ចប់ Data (Variables) និង Code (Methods) បញ្ចូលគ្នាទៅក្នុង Object តែមួយ ហើយលាក់កំបាំងភាពស្មុគស្មាញ (ឬការពារទិន្នន័យ) ពីពិភពខាងក្រៅដោយប្រើ Access Modifiers ដូចជា `private` រួចអនុញ្ញាតឱ្យ Access វិញតាមរយៈ `public` Properties ឬ Methods។
+
+```csharp
+class BankAccount
+{
+    // លាក់ទិន្នន័យមិនឱ្យគេ access ផ្ទាល់ (Encapsulated)
+    private double _balance;
+
+    // ផ្ដល់សិទ្ធិ access តាមរយៈ Property ព្រមទាំងមានលក្ខខណ្ឌ
+    public double Balance
+    {
+        get { return _balance; }
+        set 
+        { 
+            if (value >= 0) 
+                _balance = value; 
+        }
+    }
+}
+
+```
 
 ---
 
@@ -276,6 +332,19 @@ class ClsDerived : ClsBase
 **ii. Constructor ក្នុង Inheritance:**
 ក្នុង C#, Derived Class មិនបាន inherit Constructor ពី Base Class ទេ ប៉ុន្តែរាល់ពេលបង្កើត Object ពី Derived Class វាចាំបាច់ត្រូវហៅ Constructor របស់ Base Class មុនជានិច្ច (ប្រើ keyword `base`)។
 
+```csharp
+class ClsBase
+{
+    public ClsBase(int x) { }
+}
+class ClsDerived : ClsBase
+{
+    // ត្រូវហៅ base constructor
+    public ClsDerived(int x) : base(x) { }
+}
+
+```
+
 **iii. Virtual Method (ការកែប្រែ Method ចាស់):**
 Base Class ត្រូវផ្ដល់សិទ្ធិឱ្យគេកែប្រែដោយដាក់ keyword `virtual`។ ចំណែក Derived Class ពេលចង់កែប្រែ(Implement ថ្មី) ត្រូវប្រើ keyword `override`។ បើចង់ហៅកូដចាស់មកប្រើបន្ថែម គេប្រើ `base.MethodName()`។
 
@@ -299,13 +368,51 @@ class ClsEmployee : ClsBase
 **iv. Hiding Method (ការលាក់ Method ចាស់):**
 បើ Base Class មិនបានដាក់ `virtual` ទេ តែ Derived Class ចង់កែសម្រួល ឬសរសេរ Method ឈ្មោះហ្នឹងដដែល នោះវាត្រូវប្រើ keyword `new` ដើម្បីប្រាប់កុំព្យូទ័រថាវាជារបស់ថ្មីដាច់ដោយឡែក ដែលលាក់បាំង Method របស់ Base Class ពេលហៅតាម Derived Class។
 
+```csharp
+class ClsBase
+{
+    public void M1(int t) { /* កូដដើម */ }
+}
+
+class ClsEmployee : ClsBase
+{
+    // ប្រើ new ដើម្បីលាក់ M1 របស់ ClsBase ពេលហៅតាម ClsEmployee
+    public new string M1(int t) 
+    { 
+        return "Implementation ថ្មី"; 
+    }
+}
+
+```
+
 **v. Abstract Class & Abstract Method:**
 
 * **Abstract Class**: បង្កើតដោយ keyword `abstract`។ មិនអាចយកទៅបង្កើត Object ផ្ទាល់បានទេ ប្រើសម្រាប់ធ្វើជា Base Class only។
 * **Abstract Method**: ជា Method ដែលមានតែឈ្មោះ (គ្មាន Body គ្មានកន្លែងសរសេរកូដ `{...}`) ក្នុង Abstract Class។ វាបង្ខំឱ្យ Derived Class ទាំងអស់ **ដាច់ខាតត្រូវតែ** Implement វាតាមរយៈ `override`។
 
+```csharp
+abstract class Shape
+{
+    // Abstract Method (គ្មាន Body)
+    public abstract double GetArea();
+}
+
+class Circle : Shape
+{
+    public double Radius { get; set; }
+    
+    // ដាច់ខាតត្រូវតែ Override ពី Abstract class ខាងលើ
+    public override double GetArea()
+    {
+        return 3.14159 * Radius * Radius;
+    }
+}
+
+```
+
 **vi. Interface:**
 Interface ជាក្បួនរចនាសម្ព័ន្ធ (Contract) ដែលមានកម្រិតតឹងរ៉ឹងជាង Abstract Class៖
+
 * Interface ជា System Type (ដូច Class)
 * បង្កើតដោយ keyword `interface` ហើយឈ្មោះភាគច្រើនផ្ដើមដោយអក្សរ `I`
 * ជាទូទៅគ្មាន Data member (Fields) ទេ
@@ -316,7 +423,16 @@ Interface ជាក្បួនរចនាសម្ព័ន្ធ (Contract) �
 ```csharp
 interface IAnimal
 {
-    void Speak();
+    void Speak(); // គ្មានកន្លែងសរសេរកូដទេ
+}
+
+class Dog : IAnimal
+{
+    // អនុវត្តកូដពេល Implement Interface
+    public void Speak()
+    {
+        Console.WriteLine("Woof!");
+    }
 }
 
 ```
@@ -325,6 +441,31 @@ interface IAnimal
 
 * **Sealed Class**: ប្រើ keyword `sealed` ដើម្បីរារាំងមិនឱ្យ Class ផ្សេងអាច Inherit ពីវាបាន (បញ្ចប់វង្សត្រកូលត្រឹមហ្នឹង)។ វាអាចបង្កើត Object ប្រើបានធម្មតា។
 * **Sealed Method**: ប្រើនៅពេល Class មួយកែប្រែ (`override`) Method ពី Base class របស់វា ហើយវាមិនចង់ឱ្យកូនរបស់វា (Derived-classes) កែប្រែ Method នេះបានបន្តទៀត វាត្រូវប្រើ `sealed override`។
+
+```csharp
+class ClsBase
+{
+    public virtual void M1() { }
+}
+
+class ClsDerived1 : ClsBase
+{
+    public override void M1() { }
+}
+
+class ClsDerived2 : ClsDerived1
+{
+    // បញ្ឈប់ការ Override ត្រឹមនេះ (Class កូនៗរបស់វាមិនអាច override M1 បានទៀតទេ)
+    public sealed override void M1() { }
+}
+
+// Sealed Class
+sealed class FinalClass
+{
+    // មិនអាចមាន Class ណា Inherit ពី FinalClass ទេ
+}
+
+```
 
 ---
 
@@ -335,7 +476,25 @@ Polymorphism មានន័យថា "មានទម្រង់ច្រើ�
 នៅក្នុង C# OOP, Polymorphism ចែកជាពីរធំៗ៖
 
 1. **Compile-time Polymorphism (Static Binding):** សម្រេចបានតាមរយៈ **Method Overloading**។ កុំព្យូទ័រដឹងថាតើត្រូវហៅ Method មួយណាដំណើរការនៅពេល Compile អាស្រ័យលើចំនួន ឬប្រភេទ Parameter ដែលបញ្ជូនទៅ។
+
+```csharp
+// ឧទាហរណ៍ Method Overloading
+class Calculator
+{
+    public int Add(int a, int b) { return a + b; }
+    public double Add(double a, double b) { return a + b; }
+}
+
+```
+
 2. **Run-time Polymorphism (Dynamic Binding):** សម្រេចបានតាមរយៈ **Method Overriding** (ប្រើ `virtual` / `override`)។ កុំព្យូទ័រមិនអាចកំណត់ Method ច្បាស់លាស់ឡើយលុះត្រាតែកម្មវិធីដើរ (Run-time) ដោយវាផ្អែកលើប្រភេទពិតប្រាកដរបស់ Object។
+
+```csharp
+// ឧទាហរណ៍ Method Overriding ពេល Runtime
+ClsBase obj = new ClsEmployee(); // ប្រកាសជា Base តែបង្កើតជា Derived
+obj.Display(); // វានឹងដំណើរការ Method Display នៅក្នុង ClsEmployee ពេលកូដកំពុង Run
+
+```
 
 ---
 
